@@ -1,3 +1,22 @@
+// 1st Approach
+#pragma GCC optimize("Ofast","inline","ffast-math","unroll-loops","no-stack-protector")
+#pragma GCC target("sse,sse2,sse3,ssse3,sse4,popcnt,abm,mmx,avx,avx2,tune=native","f16c")
+class Solution {
+public:
+    int findDuplicate(vector<int>& nums) {
+        ios_base::sync_with_stdio(0), cin.tie(0), cout.tie(0);
+        int arr[100010]={0};
+        for(int i=0; i<nums.size(); i++){
+            arr[nums[i]]++;
+            if(arr[nums[i]]>1){
+                return nums[i];
+            }
+        }
+        return -1;
+    }
+};
+
+// 2nd Approach
 class Solution {
 public:
     int findDuplicate(vector<int>& nums) {
