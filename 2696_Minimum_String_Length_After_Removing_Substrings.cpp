@@ -15,21 +15,8 @@ auto init = []() {
 class Solution {
 public:
     int minLength(string s) {
-        int i = 0, j = 1;
-        int n=s.size();
-        while(j<n){
-            if(i >= 0 && ((s[i] == 'A' && s[j] == 'B') || (s[i]=='C' && s[j] == 'D'))){
-                i--;
-                j++;
-            }
-            else{
-                i++;
-                s[i] = s[j];
-                j++;
-            }
-        }
-        return i+1;
-
+        //APPROACH 1
+        
         stack<char> st;
         for(char i : s){
             if(st.empty()){
@@ -45,5 +32,23 @@ public:
             }
         }
         return st.size();
+_______________________________________________________________________________________________________________________________
+        
+        //APPROACH 2
+        
+        int i = 0, j = 1;
+        int n=s.size();
+        while(j<n){
+            if(i >= 0 && ((s[i] == 'A' && s[j] == 'B') || (s[i]=='C' && s[j] == 'D'))){
+                i--;
+                j++;
+            }
+            else{
+                i++;
+                s[i] = s[j];
+                j++;
+            }
+        }
+        return i+1;
     }
 };
