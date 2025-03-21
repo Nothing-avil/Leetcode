@@ -22,23 +22,23 @@ public:
         }
         vector<string> createdRecipes;
         int lastSize = -1;
-        while (static_cast<int>(available.size()) > lastSize) {
-            lastSize = available.size();
-            int queueSize = recipeQueue.size();
+        while (static_cast<int>(avil.size()) > lastSize) {
+            lastSize = avil.size();
+            int queueSize = qu.size();
             while (queueSize-- > 0) {
-                int recipeIdx = recipeQueue.front();
-                recipeQueue.pop();
+                int recipeIdx = qu.front();
+                qu.pop();
                 bool canCreate = true;
                 for (string& ingredient : ingredients[recipeIdx]) {
-                    if (!available.count(ingredient)) {
+                    if (!avil.count(ingredient)) {
                         canCreate = false;
                         break;
                     }
                 }
                 if (!canCreate) {
-                    recipeQueue.push(recipeIdx);
+                    qu.push(recipeIdx);
                 } else {
-                    available.insert(recipes[recipeIdx]);
+                    avil.insert(recipes[recipeIdx]);
                     createdRecipes.push_back(recipes[recipeIdx]);
                 }
             }
