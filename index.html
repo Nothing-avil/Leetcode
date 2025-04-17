@@ -1,74 +1,125 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>LeetCode C++ Solutions</title>
   <style>
     body {
+      margin: 0;
       font-family: monospace;
+      display: flex;
+      height: 100vh;
       background-color: #f0f0f0;
+    }
+
+    #sidebar {
+      width: 300px;
+      background-color: #1e1e1e;
+      color: #fff;
       padding: 20px;
+      box-sizing: border-box;
+      overflow-y: auto;
     }
-    #fileList {
-      margin-bottom: 20px;
-    }
-    button {
-      background-color: #333;
-      color: white;
-      padding: 8px 12px;
-      margin: 5px;
-      border: none;
+
+    #search {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 10px;
       border-radius: 4px;
-      cursor: pointer;
+      border: none;
+      font-size: 14px;
     }
+
+    #fileList {
+      list-style: none;
+      padding: 0;
+    }
+
+    #fileList li {
+      margin: 5px 0;
+      cursor: pointer;
+      padding: 6px;
+      border-radius: 4px;
+    }
+
+    #fileList li:hover {
+      background-color: #444;
+    }
+
+    #main {
+      flex-grow: 1;
+      padding: 20px;
+      overflow-y: auto;
+    }
+
     pre {
       background-color: #2d2d2d;
       color: #f8f8f2;
       padding: 20px;
       border-radius: 5px;
       overflow-x: auto;
+      white-space: pre-wrap;
     }
   </style>
 </head>
 <body>
 
-  <h1>LeetCode C++ Solutions</h1>
-  <div id="fileList">Loading file list...</div>
-  <pre id="codeViewer">// Click on a file to view its code here</pre>
+  <div id="sidebar">
+    <input type="text" id="search" placeholder="Search file..." />
+    <ul id="fileList">Loading files...</ul>
+  </div>
+
+  <div id="main">
+    <h2>LeetCode C++ Code Viewer</h2>
+    <pre id="codeViewer">// Click on a file to view its code here</pre>
+  </div>
 
   <script>
     const repoOwner = "Nothing-avil";
     const repoName = "Leetcode";
-    const fileListDiv = document.getElementById("fileList");
-    const codeViewer = document.getElementById("codeViewer");
 
-    async function fetchRepoContents() {
+    const fileListElement = document.getElementById("fileList");
+    const codeViewer = document.getElementById("codeViewer");
+    const searchBox = document.getElementById("search");
+
+    let allFiles = [];
+
+    async function fetchFiles() {
       const res = await fetch(`https://api.github.com/repos/${repoOwner}/${repoName}/contents`);
       const files = await res.json();
+      allFiles = files.filter(file => file.name.endsWith('.cpp'));
+      renderFileList(allFiles);
+    }
 
-      const cppFiles = files.filter(file => file.name.endsWith('.cpp'));
-
-      if (cppFiles.length === 0) {
-        fileListDiv.innerText = "No C++ files found.";
+    function renderFileList(files) {
+      fileListElement.innerHTML = "";
+      if (files.length === 0) {
+        fileListElement.innerHTML = "<li>No C++ files found.</li>";
         return;
       }
 
-      fileListDiv.innerHTML = '';
-      cppFiles.forEach(file => {
-        const btn = document.createElement("button");
-        btn.innerText = file.name;
-        btn.onclick = () => loadFileContent(file.download_url);
-        fileListDiv.appendChild(btn);
+      files.forEach(file => {
+        const li = document.createElement("li");
+        li.textContent = file.name;
+        li.onclick = () => loadFile(file.download_url);
+        fileListElement.appendChild(li);
       });
     }
 
-    async function loadFileContent(url) {
+    async function loadFile(url) {
       const res = await fetch(url);
-      const text = await res.text();
-      codeViewer.textContent = text;
+      const content = await res.text();
+      codeViewer.textContent = content;
     }
 
-    fetchRepoContents();
+    searchBox.addEventListener("input", () => {
+      const query = searchBox.value.toLowerCase();
+      const filtered = allFiles.filter(file => file.name.toLowerCase().includes(query));
+      renderFileList(filtered);
+    });
+
+    fetchFiles();
   </script>
 
 </body>
