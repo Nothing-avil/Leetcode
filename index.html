@@ -94,7 +94,7 @@
 
     function formatFileName(fileName) {
       const nameWithoutExt = fileName.replace(".cpp", "");
-      const parts = nameWithoutExt.split("-");
+      const parts = nameWithoutExt.split("_");
       const number = parts.shift();
       const title = parts.map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(" ");
       return `${number}. ${title}`;
