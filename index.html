@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>LeetCode C++ Solutions</title>
+  <style>
+    body {
+      font-family: monospace;
+      background-color: #f0f0f0;
+      padding: 20px;
+    }
+    #fileList {
+      margin-bottom: 20px;
+    }
+    button {
+      background-color: #333;
+      color: white;
+      padding: 8px 12px;
+      margin: 5px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    pre {
+      background-color: #2d2d2d;
+      color: #f8f8f2;
+      padding: 20px;
+      border-radius: 5px;
+      overflow-x: auto;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>LeetCode C++ Solutions</h1>
+  <div id="fileList">Loading file list...</div>
+  <pre id="codeViewer">// Click on a file to view its code here</pre>
+
+  <script>
+    const repoOwner = "Nothing-avil";
+    const repoName = "Leetcode";
+    const fileListDiv = document.getElementById("fileList");
+    const codeViewer = document.getElementById("codeViewer");
+
+    async function fetchRepoContents() {
+      const res = await fetch(`https://api.github.com/repos/${repoOwner}/${repoName}/contents`);
+      const files = await res.json();
+
+      const cppFiles = files.filter(file => file.name.endsWith('.cpp'));
+
+      if (cppFiles.length === 0) {
+        fileListDiv.innerText = "No C++ files found.";
+        return;
+      }
+
+      fileListDiv.innerHTML = '';
+      cppFiles.forEach(file => {
+        const btn = document.createElement("button");
+        btn.innerText = file.name;
+        btn.onclick = () => loadFileContent(file.download_url);
+        fileListDiv.appendChild(btn);
+      });
+    }
+
+    async function loadFileContent(url) {
+      const res = await fetch(url);
+      const text = await res.text();
+      codeViewer.textContent = text;
+    }
+
+    fetchRepoContents();
+  </script>
+
+</body>
+</html>
