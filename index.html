@@ -92,35 +92,27 @@
       renderFileList(allFiles);
     }
 
+    function formatFileName(fileName) {
+      const nameWithoutExt = fileName.replace(".cpp", "");
+      const parts = nameWithoutExt.split("-");
+      const number = parts.shift();
+      const title = parts.map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(" ");
+      return `${number}. ${title}`;
+    }
+    
     function renderFileList(files) {
       fileListElement.innerHTML = "";
       if (files.length === 0) {
         fileListElement.innerHTML = "<li>No C++ files found.</li>";
         return;
       }
-
-      function formatFileName(fileName) {
-        const nameWithoutExt = fileName.replace(".cpp", "");
-        const parts = nameWithoutExt.split("-");
-        const number = parts.shift();
-        const title = parts.map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(" ");
-        return `${number}. ${title}`;
-      }
-      
-      function renderFileList(files) {
-        fileListElement.innerHTML = "";
-        if (files.length === 0) {
-          fileListElement.innerHTML = "<li>No C++ files found.</li>";
-          return;
-        }
-      
-        files.forEach(file => {
-          const li = document.createElement("li");
-          li.textContent = formatFileName(file.name);
-          li.onclick = () => loadFile(file.download_url);
-          fileListElement.appendChild(li);
-        });
-      }
+    
+      files.forEach(file => {
+        const li = document.createElement("li");
+        li.textContent = formatFileName(file.name);
+        li.onclick = () => loadFile(file.download_url);
+        fileListElement.appendChild(li);
+      });
     }
 
     async function loadFile(url) {
