@@ -1,13 +1,22 @@
-#pragma GCC optimize("Ofast","inline","ffast-math","unroll-loops","no-stack-protector")
-#pragma GCC target("sse,sse2,sse3,ssse3,sse4,popcnt,abm,mmx,avx,avx2,tune=native","f16c")
-
+// ███████╗  █████╗  ███╗   ██╗ ██████╗   █████╗  ██████╗  ██████╗  ██╗  ██╗
+// ██╔════╝ ██╔══██╗ ████╗  ██║ ██╔══██╗ ██╔══██╗ ██╔══██╗ ██╔══██╗ ██║  ██║
+// ███████╗ ███████║ ██╔██╗ ██║ ██║  ██║ ███████║ ██████╔╝ ██████╔╝ ███████║
+// ╚════██║ ██╔══██║ ██║╚██╗██║ ██║  ██║ ██╔══██║ ██╔═██╗  ██╔══██╗ ██╔══██║
+// ███████║ ██║  ██║ ██║ ╚████║ ██████╔╝ ██║  ██║ ██║  ██╗ ██████╔╝ ██║  ██║
+// ╚══════╝ ╚═╝  ╚═╝ ╚═╝  ╚═══╝ ╚═════╝  ╚═╝  ╚═╝ ╚═╝  ╚═╝ ╚═════╝  ╚═╝  ╚═╝
+#pragma GCC optimize("Ofast", "inline", "ffast-math", "unroll-loops","no-stack-protector")
+#pragma GCC target("sse,sse2,sse3,ssse3,sse4,popcnt,abm,mmx,avx,avx2,tune=native", "f16c")
+auto init = []() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(nullptr);
+    cout.tie(nullptr);
+    return 'c';
+}();
 using ll = long long;
 using pii = pair<ll, int>;
-
 class Solution {
 public:
     int mostBooked(int n, vector<vector<int>>& meetings) {
-        ios_base::sync_with_stdio(false), cin.tie(nullptr), cout.tie(nullptr);
         priority_queue<int, vector<int>, greater<int>> idle;
         priority_queue<pii, vector<pii>, greater<pii>> busy;
         for (int i = 0; i < n; ++i) idle.push(i);
