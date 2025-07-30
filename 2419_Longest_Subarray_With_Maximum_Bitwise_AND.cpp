@@ -15,18 +15,17 @@ auto init = []() {
 class Solution {
 public:
     int longestSubarray(vector<int>& nums) {
+        int res = 0, ans = 0;
         int maxi = *max_element(nums.begin(), nums.end());
-        int max_sub=0;
-        int c=0;
         for(int i=1; i<nums.size(); i++){
-            if(nums[i] == maxi && nums[i-1] == maxi){
-                c++;
+            if(nums[i] == maxi && nums[i - 1] == maxi){
+                ans++;
             }
             else{
-                c=0;
+                ans = 0;
             }
-            max_sub = max(max_sub, c);
+            res = max(res, ans);
         }
-        return max_sub+1;
+        return res + 1;
     }
 };
