@@ -1,25 +1,26 @@
+// ███████╗  █████╗  ███╗   ██╗ ██████╗   █████╗  ██████╗  ██████╗  ██╗  ██╗
+// ██╔════╝ ██╔══██╗ ████╗  ██║ ██╔══██╗ ██╔══██╗ ██╔══██╗ ██╔══██╗ ██║  ██║
+// ███████╗ ███████║ ██╔██╗ ██║ ██║  ██║ ███████║ ██████╔╝ ██████╔╝ ███████║
+// ╚════██║ ██╔══██║ ██║╚██╗██║ ██║  ██║ ██╔══██║ ██╔═██╗  ██╔══██╗ ██╔══██║
+// ███████║ ██║  ██║ ██║ ╚████║ ██████╔╝ ██║  ██║ ██║  ██╗ ██████╔╝ ██║  ██║
+// ╚══════╝ ╚═╝  ╚═╝ ╚═╝  ╚═══╝ ╚═════╝  ╚═╝  ╚═╝ ╚═╝  ╚═╝ ╚═════╝  ╚═╝  ╚═╝
 #pragma GCC optimize("Ofast", "inline", "ffast-math", "unroll-loops","no-stack-protector")
 #pragma GCC target("sse,sse2,sse3,ssse3,sse4,popcnt,abm,mmx,avx,avx2,tune=native", "f16c")
 auto init = []() {
-    ios::sync_with_stdio(false);
+    ios_base::sync_with_stdio(false);
     cin.tie(nullptr);
     cout.tie(nullptr);
     return 'c';
 }();
 class Solution {
 public:
-    vector<int> survivedRobotsHealths(vector<int>& positions,
-                                      vector<int>& healths, string directions) {
+    vector<int> survivedRobotsHealths(vector<int>& positions, vector<int>& healths, string directions) {
         int n = positions.size();
         vector<int> indices(n);
-
         iota(indices.begin(), indices.end(), 0);
         stack<int> st;
-
         auto lambda = [&](int i, int j) { return positions[i] < positions[j]; };
-
         sort(begin(indices), end(indices), lambda);
-
         vector<int> result;
         for (int currentIndex : indices) {
             if (directions[currentIndex] == 'R') {
@@ -28,7 +29,6 @@ public:
                 while (!st.empty() && healths[currentIndex] > 0) {
                     int topIndex = st.top();
                     st.pop();
-
                     if (healths[topIndex] > healths[currentIndex]) {
                         healths[topIndex] -= 1;
                         healths[currentIndex] = 0;
@@ -43,7 +43,6 @@ public:
                 }
             }
         }
-
         for (int i = 0; i < n; ++i) {
             if (healths[i] > 0) {
                 result.push_back(healths[i]);
